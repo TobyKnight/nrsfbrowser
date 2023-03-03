@@ -37,7 +37,7 @@ public without sharing class Mon_AgentProxyCtrl {
         try{
             // Make sure we can update the database before even trying
             if (!Schema.sObjectType.User.fields.Name.isAccessible()) {
-                system.debug('*** Mon : deliberately overiding user access to User object');
+                //system.debug('*** Mon : deliberately overiding user access to User object');
             }
             // oUser = [select id, Profile.Name, FederationIdentifier, Department, Primary_Premise_Name__c FROM User Where id =: userInfo.getUserId()]; // NOSONAR
              oUser = [select id, Username, Name, Country, State, City, Profile.Name, FederationIdentifier, Department FROM User Where id =: userInfo.getUserId()]; // NOSONAR
@@ -64,7 +64,7 @@ public without sharing class Mon_AgentProxyCtrl {
             }
             theUserDetails.permissionSets = getPermissionSets();
             theUserDetails.ipAddress = getExternalIp();
-            system.debug('*** Mon *** IP:' + theUserDetails.ipAddress);
+            //system.debug('*** Mon *** IP:' + theUserDetails.ipAddress);
             theUserDetails.vfhost = getVFBaseURL();
         } catch(Exception e){
             throw new AuraHandledException(e.getMessage());
@@ -129,7 +129,7 @@ public without sharing class Mon_AgentProxyCtrl {
         try {
             // Make sure we can update the database before even trying
             if (!Schema.sObjectType.PermissionSetAssignment.fields.Id.isAccessible()) {
-                system.debug('*** Mon : deliberately overiding user access to PermissionSetAssignment object');
+                //system.debug('*** Mon : deliberately overiding user access to PermissionSetAssignment object');
             }
             psas = [SELECT Id, PermissionSetId, PermissionSet.Name, PermissionSet.ProfileId, PermissionSet.Profile.Name, AssigneeId, Assignee.Name FROM PermissionSetAssignment WHERE AssigneeId = :userId];
             for (PermissionSetAssignment psa : psas) {
@@ -144,7 +144,7 @@ public without sharing class Mon_AgentProxyCtrl {
         } catch(Exception e){
             throw new AuraHandledException(e.getMessage());
         }
-        system.debug('*** Mon *** PS:' + permissionSets);
+        //system.debug('*** Mon *** PS:' + permissionSets);
         return permissionSets; 
     }
 
@@ -184,7 +184,7 @@ public without sharing class Mon_AgentProxyCtrl {
         List<PLR_UI_Log__c> logFile = new List<PLR_UI_Log__c>();
 
         try{
-            // system.debug(aLog);
+            // //system.debug(aLog);
             Map<String,Object> logParsed = (Map<String,Object> ) JSON.deserializeUntyped(aLog);
             route = (String) logParsed.get('route');
             // Dont log the UI log!
@@ -199,15 +199,15 @@ public without sharing class Mon_AgentProxyCtrl {
             ipAddress = (String) logParsed.get('ipAddress');
             timeStamp = (Long) logParsed.get('timeStamp');
 
-            System.debug('guid = ' + guid);
-            System.debug('userId = ' + userId);
-            System.debug('profileName = ' + profileName);
-            System.debug('permissionSets = ' + permissionSets);
-            System.debug('route = ' + route);
-            System.debug('routeStandardised = ' + routeStandardised);
-            System.debug('ipAddress = ' + ipAddress);
-            System.debug('timeStamp = ' + timeStamp);
-            System.debug('---------------------------------------------');
+            //system.debug('guid = ' + guid);
+            //system.debug('userId = ' + userId);
+            //system.debug('profileName = ' + profileName);
+            //system.debug('permissionSets = ' + permissionSets);
+            //system.debug('route = ' + route);
+            //system.debug('routeStandardised = ' + routeStandardised);
+            //system.debug('ipAddress = ' + ipAddress);
+            //system.debug('timeStamp = ' + timeStamp);
+            //system.debug('---------------------------------------------');
 
             List<Object> logRows = (List<Object>) logParsed.get('uiLogRows');
             for(Object logRow : logRows){
@@ -233,10 +233,10 @@ public without sharing class Mon_AgentProxyCtrl {
             //    logRecord.User_Id__c = userId;
             //    logFile.add(logRecord);
 
-                System.debug('component = ' + component);
-                System.debug('linkLabel = ' + linkLabel);
-                System.debug('recordId = ' + recordId);
-                System.debug('---------------------------------------------');
+                //system.debug('component = ' + component);
+                //system.debug('linkLabel = ' + linkLabel);
+                //system.debug('recordId = ' + recordId);
+                //system.debug('---------------------------------------------');
             }
          
         }catch(Exception e){

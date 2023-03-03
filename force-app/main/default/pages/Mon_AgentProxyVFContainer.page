@@ -33,7 +33,7 @@
                 var lexOriginSandbox = "https://" + hostname.split('--c.')[0] + ".lightning.force.com";
                 window.addEventListener("message", function(event) {
                     if (event.origin !== lexOrigin || event.origin !== lexOriginSandbox)  {
-                        helper.logIt(component, '*** Mon: Bad origin in VF container!! Expected ' + lexOrigin);
+                       
                         
                         return;
                     }

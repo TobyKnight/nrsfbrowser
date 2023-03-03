@@ -588,8 +588,7 @@
         var vfWindowFind = component.find("vfFrame");
        
         var vfWindowElement = vfWindowFind.getElement();
-        helper.logIt(component, '*** TK DEBUG ON');
-        var vfWindow = vfWindowElement.contentWindow;
+         var vfWindow = vfWindowElement.contentWindow;
        
         if (vfWindow) {
             try {
@@ -597,13 +596,31 @@
                 let vfOriginNew = component.get("v.vfHostNewFormat");
                 let vfOriginOld = component.get("v.vfHostOldFormat");
                 let vfOriginEnhanced = component.get("v.vfHostEnhancedFormat");
-                vfWindow.postMessage(message, vfOriginNew);
-                helper.logIt(component, "*** Mon: published event message to VF container new format:" + vfOriginNew);
-                vfWindow.postMessage(message, vfOriginOld);
-                helper.logIt(component, "*** Mon: published event message to VF container old format:" + vfOriginOld);
-                vfWindow.postMessage(message, vfOriginEnhanced);
-                helper.logIt(component, "*** Mon: published event message to VF container enhanced format:" + vfOriginEnhanced);
-                  
+
+                let isOldDomain = component.get("v.olddomain");
+                let isNewDomain = component.get("v.newdomain");
+                let isEnhancedDomain = component.get("v.enhanceddomain");
+                    
+                    
+                    if (isOldDomain == true)
+                    {
+                        vfWindow.postMessage(message, vfOriginOld);
+                        helper.logIt(component, "*** Mon: published event message to VF container old format:" + vfOriginOld);
+                     
+                      }
+
+                    if (isNewDomain == true)
+                    {
+                        vfWindow.postMessage(message, vfOriginNew);
+                        helper.logIt(component, "*** Mon: published event message to VF container new format:" + vfOriginNew);   
+                    }
+                    if (isEnhancedDomain == true)
+                    {
+                        vfWindow.postMessage(message, vfOriginEnhanced);
+                        helper.logIt(component, "*** Mon: published event message to VF container enhanced format:" + vfOriginEnhanced);
+                    }    
+                    
+                
               
                 
             

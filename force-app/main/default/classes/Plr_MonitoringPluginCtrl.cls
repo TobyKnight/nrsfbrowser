@@ -31,7 +31,7 @@ public without sharing class Plr_MonitoringPluginCtrl {
 		List<PLR_UI_Log__c> logFile = new List<PLR_UI_Log__c>();
 
 		try{
-			// system.debug(aLog);
+			// //system.debug(aLog);
 			Map<String,Object> logParsed = (Map<String,Object> ) JSON.deserializeUntyped(aLog);
 			route = (String) logParsed.get('route');
 			// Dont log the UI log!
@@ -46,15 +46,15 @@ public without sharing class Plr_MonitoringPluginCtrl {
 			ipAddress = (String) logParsed.get('ipAddress');
 			timeStamp = (Long) logParsed.get('timeStamp');
 
-			System.debug('guid = ' + guid);
-			System.debug('userId = ' + userId);
-			System.debug('profileName = ' + profileName);
-			System.debug('permissionSets = ' + permissionSets);
-			System.debug('route = ' + route);
-			System.debug('routeStandardised = ' + routeStandardised);
-			System.debug('ipAddress = ' + ipAddress);
-			System.debug('timeStamp = ' + timeStamp);
-			System.debug('---------------------------------------------');
+			//system.debug('guid = ' + guid);
+			//system.debug('userId = ' + userId);
+			//system.debug('profileName = ' + profileName);
+			//system.debug('permissionSets = ' + permissionSets);
+			//system.debug('route = ' + route);
+			//system.debug('routeStandardised = ' + routeStandardised);
+			//system.debug('ipAddress = ' + ipAddress);
+			//system.debug('timeStamp = ' + timeStamp);
+			//system.debug('---------------------------------------------');
 
 			List<Object> logRows = (List<Object>) logParsed.get('uiLogRows');
 			for(Object logRow : logRows){
@@ -80,10 +80,10 @@ public without sharing class Plr_MonitoringPluginCtrl {
 				logRecord.User_Id__c = userId;
 				logFile.add(logRecord);
 
-				System.debug('component = ' + component);
-				System.debug('linkLabel = ' + linkLabel);
-				System.debug('recordId = ' + recordId);
-				System.debug('---------------------------------------------');
+				//system.debug('component = ' + component);
+				//system.debug('linkLabel = ' + linkLabel);
+				//system.debug('recordId = ' + recordId);
+				//system.debug('---------------------------------------------');
 			}
 			if (!logFile.isEmpty()) {
 				insert logFile;

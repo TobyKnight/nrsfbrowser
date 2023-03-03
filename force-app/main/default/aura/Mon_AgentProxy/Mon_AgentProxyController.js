@@ -105,11 +105,11 @@
                     // Set user's location depending on what location related fields are populated on the user record
                    
                      let userLocation = component.get("v.UserLocation");
-                    console.log (userLocation);
+                    
                     
                     if (userLocation == 'State')
                     {
-                        console.log (userLocation);
+                      
                       if (userRecord.State && userRecord.State.length) {
                         location = userRecord.State; // Use FederationId if available
                       }
@@ -286,7 +286,17 @@
                             }
                         }
                     );
+                } else { // User not enabled
+                    //// Set utility bar name
+                    var utilityAPI = component.find("NewRelicutil");
+         
+                   
+                        utilityAPI.setUtilityLabel({
+                        label: ""
+                        });
+                   
                 }
+                
             } else if (state === "INCOMPLETE") {
                 // do something
             } else if (state === "ERROR") {

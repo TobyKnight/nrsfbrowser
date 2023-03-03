@@ -8,4 +8,7 @@
     <design:attribute name="UserObject" label="User Object to Identify User" description="Could be Id, Name, Username"/>
     <design:attribute name="UserLocation" label="User Object to Identify User Location" description="Could be Country, City, State, Department"/>
     <design:attribute name="hiddenOn" label="Hide Utility Bar Item" description="true or false"/>
+    <design:attribute name="olddomain" label="Old SalesForce Domain" description="https://myDomainNamespace.visualforce.com"/>
+    <design:attribute name="newdomain" label="New SalesForce Domain" description="https://myDomainNamespacePod.visual.force.com'"/>
+    <design:attribute name="enhanceddomain" label="Enhanced SalesForce Domain" description="https://myDomainNamespacePod.visual.force.com'"/>
 </design:component>
