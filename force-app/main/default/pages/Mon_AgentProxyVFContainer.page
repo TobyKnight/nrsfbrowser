@@ -30,9 +30,10 @@
             <script>
                 var hostname = window.location.hostname;
                 var lexOrigin = "https://" + hostname.split('--c.')[0] + ".lightning.force.com";
-                var lexOriginSandbox = "https://" + hostname.split('--c.')[0] + ".lightning.force.com";
+                var lexOriginSandbox = "https://" + hostname.split('--c.')[0] + ".sandbox.lightning.force.com";
                 window.addEventListener("message", function(event) {
-                    if (event.origin !== lexOrigin || event.origin !== lexOriginSandbox)  {
+                    console.log ('SANDBOX', event.origin )
+                    if (event.origin !== lexOrigin && event.origin !== lexOriginSandbox)  {
                        
                         
                         return;
