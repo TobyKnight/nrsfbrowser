@@ -6,6 +6,7 @@ public with sharing class Mon_AgentProxyUserDetails {
     @AuraEnabled public String profile { get; set; }
     @AuraEnabled public String permissionSets { get; set; }
     @AuraEnabled public String ipAddress { get; set; }
+    @AuraEnabled public String sfAppname { get; set; }
         
     public Mon_AgentProxyUserDetails() {
         details = new User();
@@ -13,5 +14,6 @@ public with sharing class Mon_AgentProxyUserDetails {
         vfhost = new List<String>();
         permissionSets = '';
         ipAddress = '';
+        sfAppname = '';
     }
 }

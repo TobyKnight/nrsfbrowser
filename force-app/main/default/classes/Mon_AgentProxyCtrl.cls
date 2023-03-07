@@ -64,6 +64,7 @@ public without sharing class Mon_AgentProxyCtrl {
             }
             theUserDetails.permissionSets = getPermissionSets();
             theUserDetails.ipAddress = getExternalIp();
+            theUserDetails.sfAppname = getAppName();
             //system.debug('*** Mon *** IP:' + theUserDetails.ipAddress);
             theUserDetails.vfhost = getVFBaseURL();
         } catch(Exception e){
@@ -159,6 +160,19 @@ public without sharing class Mon_AgentProxyCtrl {
         return currentSessionAttributes.get('SourceIp');
     }
 
+   
+
+   public static String getAppName() {
+    UserAppInfo userAppInfo = [SELECT Id, AppDefinitionId FROM UserAppInfo WHERE UserId = :UserInfo.getUserId() LIMIT 1];
+    AppDefinition appDefinition = [SELECT DurableId, Label FROM AppDefinition Where DurableId = :userAppInfo.AppDefinitionId LIMIT 1];
+    system.debug('*** Mon *** PS APP NAME:' + appDefinition.Label);
+    return appDefinition.Label;
+
+}
+
+
+
+   
     @AuraEnabled
     /*
      * @author Peter Sewell

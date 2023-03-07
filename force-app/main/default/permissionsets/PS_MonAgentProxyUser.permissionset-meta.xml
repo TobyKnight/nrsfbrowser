@@ -8,6 +8,10 @@
         <apexClass>Mon_AgentProxyUserDetails</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <pageAccesses>
+        <apexPage>Mon_AgentProxyVFContainer</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>CP_MonAgentProxyAgentEnabled</name>

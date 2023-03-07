@@ -153,6 +153,7 @@
         component.set("v.interactionProfileName", eventData.interactionProfileName);
         component.set("v.interactionPermissionSets", eventData.interactionPermissionSets);
         component.set("v.interactionIpAddress", eventData.interactionIpAddress);
+        component.set("v.interactionAppName", eventData.interactionAppName);
         component.set("v.interactionUserLocation", eventData.interactionUserLocation);
         component.set("v.interactionHost", eventData.interactionHost);
         helper.logIt(component, '*** Mon: component constants initialised, waiting for first interaction = ' + JSON.stringify(eventData));
@@ -312,6 +313,7 @@
             "interactionUserId" : component.get("v.interactionUserId"),
             "interactionFederationId" : component.get("v.interactionFederationId"),
             "interactionUserLocation" : component.get("v.interactionUserLocation"),
+            "interactionAppName" : component.get("v.interactionAppName"),
             "interactionHost" : component.get("v.interactionHost"),
             "interactionGuid" : component.get("v.interactionGuid"),
             "interactionCorrelationId" : component.get("v.interactionCorrelationId"),

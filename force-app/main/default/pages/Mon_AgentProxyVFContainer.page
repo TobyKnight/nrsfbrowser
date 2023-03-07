@@ -60,6 +60,7 @@
                         newrelic.interaction().setAttribute('sfdcUser', e.interactionUserId);
                         newrelic.interaction().setAttribute('sfdcFederationId', e.interactionFederationId);
                         newrelic.interaction().setAttribute('sfdcUserLocation', e.interactionUserLocation);
+                        newrelic.interaction().setAttribute('sfdcAppName', e.interactionAppName);
                         newrelic.interaction().save();
                         newrelic.interaction().end();
                        

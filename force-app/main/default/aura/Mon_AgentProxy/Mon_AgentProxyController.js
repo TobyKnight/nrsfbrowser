@@ -9,6 +9,7 @@
         component.set("v.vfHostVal", hostname);
         component.set("v.vfPageVal", pagename);
         component.set("v.vfHost", hostname);
+      //  component.set("v.vfAppName", sfAppname);
         component.set("v.primarySnippet", helper.sanitizeHTML(component.get("v.primarySnippet")));
         component.set("v.secondarySnippet", helper.sanitizeHTML(component.get("v.secondarySnippet")));
        // component.set("v.UserObject", component.get("v.UserObject"));
@@ -96,7 +97,8 @@
                     let userRecord = response.getReturnValue().details;
                     let permSetNames = response.getReturnValue().permissionSets;
                     let ipAdr = response.getReturnValue().ipAddress;
-
+                    let AppName = response.getReturnValue().sfAppname;
+                    
                      let location = 'unknown'; // default
 
                     if (userRecord.Department && userRecord.Department.length) {
@@ -205,6 +207,13 @@
                         ipAddress = ipAdr;
                     }
 
+                    // Set user's add name
+                    let sfAppname = 'unknown';
+                  
+                    if (AppName.length > 0) {
+                        sfAppname = AppName;
+                    }
+
                     // Instantiate network event listener component
                     $A.createComponent(
                         "c:Mon_AgentProxyNetworkActivityListener",
@@ -264,7 +273,7 @@
                                 helper.loadMonitoringPlugins(
                                     component, helper, 
                                     ['Plr_MonitoringPlugin']);
-
+                                    
                                 // Initialisation complete. Let everyone know we're good to go!
                                 let myEvent = { "type" : "EVT_COMPONENT_INITIALISED", "data" : {
                                     "interactionUserId" : $A.get("$SObjectType.CurrentUser.Id"), 
@@ -272,6 +281,7 @@
                                     "interactionProfileName" : profileName,
                                     "interactionPermissionSets" : permissionSets,
                                     "interactionIpAddress" : ipAddress,
+                                    "interactionAppName" : AppName,
                                     "interactionUserLocation" : location,
                                     "interactionHost" : window.location.hostname}};
                                 helper.handleEvent(component, helper, myEvent);

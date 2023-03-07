@@ -27,6 +27,8 @@ public without sharing class Plr_MonitoringPluginCtrl {
 		String component;
 		String linkLabel; 
 		String recordId;
+		
+
 
 		List<PLR_UI_Log__c> logFile = new List<PLR_UI_Log__c>();
 

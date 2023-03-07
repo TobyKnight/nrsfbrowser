@@ -61,6 +61,7 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="interactionFederationId" type="String" default=""/>
 <aura:attribute name="interactionUserLocation" type="String" default=""/>
 <aura:attribute name="interactionHost" type="String" default=""/>
+<aura:attribute name="interactionAppName" type="String" default=""/>
 
 <!-- Per interaction variables, set for each new interaction  -->
 <aura:attribute name="interactionGuid" type="String" default=""/>
