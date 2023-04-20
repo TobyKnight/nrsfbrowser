@@ -11,6 +11,10 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>*</members>
+        <name>LightningMessageChannel</name>
+    </types>
+    <types>
         <members>Mon_AgentProxy</members>
         <members>Mon_AgentProxyNetworkActivityListener</members>
         <members>Mon_AgentProxyLocationChangeListener</members>

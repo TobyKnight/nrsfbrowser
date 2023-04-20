@@ -1,10 +1,10 @@
-
 <aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="Mon_AgentProxyCtrl">
     
 <!-- Add this interface if you want the component to be hidden in the Utility Bar and run in background
 implements="lightning:backgroundUtilityItem">
 -->
-
+<!-- Include the lightning:empApi component -->
+<lightning:empApi aura:id="empApi"/>
 <lightning:workspaceAPI aura:id="workspace" />	
 <lightning:utilityBarAPI aura:id="NewRelicutil"/>
 <aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -45,7 +45,12 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="timerNetworkActivityId" type="Decimal" default="0"/>
 
 <aura:attribute name="lastNetworkLatencyMs" type="Decimal" default="100"/>
-
+<lightning:messageChannel
+        type="Mon_AgentProxySpinnerEvent__c"
+        aura:id="agentProxySpinnerEventChannel"
+        onMessage="{!c.handleCustomDOMMessage}"
+        scope="APPLICATION"
+    />
 <!-- Interaction state variables, keep track of interaction -->
 <aura:attribute name="interactionState" type="String" default="WAITING_COMPONENT_INITIALISATION"/>
 <aura:attribute name="interactionNetworkRequestsInProgress" type="Set"/>
@@ -107,7 +112,6 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="olddomain" type="Boolean" default="false"/>
 <aura:attribute name="newdomain" type="Boolean" default="false"/>
 <aura:attribute name="enhanceddomain" type="Boolean" default="true"/>
-
 <aura:if isTrue="{!AND(v.hiddenOn,v.agentEnabled)}">
     <div style="margin: 10px;">
         <p>This component is helping us tracking Browser performance only</p>
@@ -122,12 +126,8 @@ implements="lightning:backgroundUtilityItem">
                 <p class="slds-p-left_x-small slds-text-body_small slds-text-color_weak">Route</p>
                 <p class="slds-p-bottom_x-small slds-p-left_x-small slds-text-body_medium"><strong>{!v.interactionRouteStandardised}</strong></p>
                 <aura:if isTrue="{!v.interactionInProgress}">
-                    <div class="slds-spinner_container" aura:id="uploadSpinner">
-                        <div class="slds-spinner slds-spinner--small" aria-hidden="false" role="alert">
-                            <div class="slds-spinner__dot-a"></div>
-                            <div class="slds-spinner__dot-b"></div>
-                        </div>
-                    </div>
+                   
+                    
                 </aura:if>
             </div>
 

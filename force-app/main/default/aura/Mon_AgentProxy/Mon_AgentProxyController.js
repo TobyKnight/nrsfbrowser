@@ -214,6 +214,8 @@
                         sfAppname = AppName;
                     }
 
+                
+
                     // Instantiate network event listener component
                     $A.createComponent(
                         "c:Mon_AgentProxyNetworkActivityListener",
@@ -335,8 +337,35 @@
 
         
     },
+
     handleDoneRendering : function(component, event, helper) {
+      
         let myEvent = { "type" : "EVT_RENDER", "data" : {"time" : Date.now()}};
         helper.handleEvent(component, helper, myEvent);
+    },
+    
+    handleCustomDOMMessage: function(cmp, message, helper) {
+        // Read the message argument to get the values in the message payload 
+          
+        if (message.getParam("type") != null) {
+            // Get the value of the eventType field
+           const eventType = message.getParam("type")
+            // Handle the message based on the eventType value
+            switch (eventType) {
+              case 'EVT_SPINNER_END':
+                console.log("Recieved EVT_SPINNER_END");
+                //helper.handleEvent(component, helper, event);
+                break;
+              case 'EVT_SPINNER_START':
+                console.log("Recieved EVT_SPINNER_START");
+               // helper.handleEvent(component, helper, event);
+                break;
+              default:
+                console.log("Recieved Undefined: ");
+                break;
+            }
+          }
+
+
     }
 })
