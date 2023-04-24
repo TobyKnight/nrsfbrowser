@@ -30,6 +30,7 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="debugOn" type="Boolean" default="true"/>
 <aura:attribute name="agentEnabled" type="Boolean" default="false"/>
 <aura:attribute name="useSecondaryAgent" type="Boolean" default="false"/>
+<aura:attribute name="spinnerOn" type="Boolean" default="false"/>
 
 <!-- Globals - Custom Permissions enabling above booleans -->
 <aura:attribute name="customPermissionDebugOn" type="String" default="CP_MonAgentProxyDebugOn"/>
@@ -38,6 +39,7 @@ implements="lightning:backgroundUtilityItem">
 
 <!-- Timers -->
 <aura:attribute name="timerInteractionIdleMs" type="Integer" default="500"/> <!-- Can be overidden by component design param -->
+<aura:attribute name="timerSpinnerInteractionIdleMs" type="Integer" default="500"/> 
 <aura:attribute name="timerInteractionIdleId" type="Decimal" default="0"/>
 
 <aura:attribute name="timerNetworkActivityMs" type="Integer" default="5000"/> <!-- Can be overidden by component design param -->
@@ -79,6 +81,7 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="interactionDurationServer" type="Decimal" default="0"/>
 <aura:attribute name="interactionStartTime" type="DateTime" default="0"/>
 <aura:attribute name="interactionEndTime" type="DateTime" default="0"/>
+<aura:attribute name="spinnerinteractionEndTime" type="DateTime" default="0"/>
 <aura:attribute name="interactionRenders" type="Integer" default="0"/>
 <aura:attribute name="interactionNetworkRoundTrips" type="Integer" default="0"/>
 <aura:attribute name="interactionNetworkLatencyMs" type="Integer" default="0"/>

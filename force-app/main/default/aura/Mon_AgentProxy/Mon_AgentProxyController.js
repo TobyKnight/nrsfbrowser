@@ -9,6 +9,7 @@
         component.set("v.vfHostVal", hostname);
         component.set("v.vfPageVal", pagename);
         component.set("v.vfHost", hostname);
+        component.set("v.spinnerOn", "false");
       //  component.set("v.vfAppName", sfAppname);
         component.set("v.primarySnippet", helper.sanitizeHTML(component.get("v.primarySnippet")));
         component.set("v.secondarySnippet", helper.sanitizeHTML(component.get("v.secondarySnippet")));
@@ -258,10 +259,10 @@
                                         helper.logIt(component,'*** Mon: got network event via POST: ' + event.data.type + ' from... ' + event.origin);
                                         helper.handleNetworkEvent(component, event.data, helper);
                                     }
-                                    if (event.data.type != undefined && (event.data.type === 'EVT_SPINNER_START' || event.data.type === 'EVT_SPINNER_END')) {
-                                        helper.logIt(component,'*** Mon: got spinner event via POST: ' + event.data.type + ' from... ' + event.origin);
-                                        helper.handleSpinnerEvent(component, event.data, helper);
-                                    }
+                                  //  if (event.data.type != undefined && (event.data.type === 'EVT_SPINNER_START' || event.data.type === 'EVT_SPINNER_END')) {
+                                  //      helper.logIt(component,'*** Mon: got spinner event via POST: ' + event.data.type + ' from... ' + event.origin);
+                                  //      helper.handleSpinnerEvent(component, event.data, helper);
+                                  //  }
                                 });
 
                                 
@@ -344,21 +345,56 @@
         helper.handleEvent(component, helper, myEvent);
     },
     
-    handleCustomDOMMessage: function(cmp, message, helper) {
+    handleCustomDOMMessage: function(component, message, helper) {
         // Read the message argument to get the values in the message payload 
           
         if (message.getParam("type") != null) {
             // Get the value of the eventType field
            const eventType = message.getParam("type")
             // Handle the message based on the eventType value
+            let type = eventType;
+            
+            let idleTimer = null;
+
+            let id = Date.now() + '-' + (Math.floor(Math.random() * Math.floor(100))).toString().padStart(2, "0");
+           
+
+            let myEvent = { "type" : type, "data" : { "id" : id, "time" : Date.now(), "idleTimer" : idleTimer}};
+           
+
+
+
+
+
             switch (eventType) {
               case 'EVT_SPINNER_END':
-                console.log("Recieved EVT_SPINNER_END");
-                //helper.handleEvent(component, helper, event);
+                
+                myEvent = { "type" : "EVT_SPINNER_END", "data" : { "id" : id, "time" : Date.now(), "idleTimer" : idleTimer}};
+                component.set("v.interactionEndTime", Date.now()); // update end time to that of last interaction activity 
+                component.set("v.interactionNetworkActivityLastActivityTime", Date.now());
+                component.set("v.spinnerOn", "false");
+                 component.set("v.interactionEndTime", Date.now());
+                helper.handleEvent(component, helper, myEvent);
+                
+
                 break;
+
               case 'EVT_SPINNER_START':
-                console.log("Recieved EVT_SPINNER_START");
-               // helper.handleEvent(component, helper, event);
+               
+            
+             component.set("v.spinnerOn", "true");
+              let tabRoute = window.location.pathname + '-Save';
+             
+              let tabRouteStandardised = '';
+             
+    
+
+       
+       
+         myEvent = { "type" : "EVT_SPINNER_START", "data" : {"route" : tabRoute, "routeStandardised" : tabRoute, "time" : Date.now()}} ;
+        helper.handleEvent(component, helper, myEvent);
+  
+             
                 break;
               default:
                 console.log("Recieved Undefined: ");
