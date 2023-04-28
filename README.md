@@ -30,7 +30,7 @@
  - Run `sfdx --version` to ensure the Salesforce CLI is correctly installed
  - Create a profile and authenticate to your Salesforce environment:
 ```bash
-    sfdx force:auth:web:login -d -a MySalesForceDev-r https://newrelic-e-dev-ed.my.salesforce.com/
+    sfdx force:auth:web:login -d -a MySalesForceDev -r https://newrelic-e-dev-ed.my.salesforce.com/
 ```     
  - Deploy the New Relic Browser Salesforce Component to your Salesforce environment
 ```bash
