@@ -216,7 +216,7 @@
         }
         else
         {
-            component.set("v.interactionEndTime", component.get(".spinnerinteractionEndTime"));  
+            component.set("v.interactionEndTime", component.get("v.spinnerinteractionEndTime"));  
         
         }
         
@@ -299,7 +299,7 @@
         }
          else
         {
-            component.set("v.interactionEndTime", component.get(".spinnerinteractionEndTime"));  
+            component.set("v.interactionEndTime", component.get("v.spinnerinteractionEndTime"));  
           
         }
         //component.set("v.interactionEndTime", eventData.time); // update end time to that of last interaction activity 
