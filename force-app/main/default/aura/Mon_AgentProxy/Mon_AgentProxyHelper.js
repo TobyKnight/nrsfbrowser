@@ -33,7 +33,7 @@
                     case "EVT_SPINNER_START" :
                       //  helper.doSpinnerActivityStart(component, helper, eventData);
                         helper.doInteractionStart(component, helper, eventData, eventType);
-                    
+                        helper.measureNetworkResponseTime(component, helper);
                         helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
 
                        // helper.doSpinnerStart(component, helper, eventData);
@@ -60,7 +60,7 @@
                         break;
                     case "EVT_SPINNER_START" :
                        // helper.doSpinnerActivityStart(component, helper, eventData);
-                     
+                        helper.measureNetworkResponseTime(component, helper);
                         helper.doSpinnerStart(component, helper, eventData);
                       //  helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
                         break;
@@ -68,6 +68,7 @@
                       
                         helper.setInteractionState (component, helper, 'INTERACTION_COMPLETE');
                        // console.log ('In Spinner END TIME :', component.get(component.get("v.spinnerinteractionEndTime")));
+                        helper.measureNetworkResponseTime(component, helper);
                         helper.doInteractionEnd(component, helper, eventData);
                         helper.setInteractionState (component, helper, 'WAITING_INTERACTION_START');
                     break;
@@ -103,6 +104,7 @@
                     helper.doNetworkRequest(component, helper, eventData);
                     break;
                 case "EVT_SPINNER_END" :
+                    
                     helper.setInteractionState (component, helper, 'INTERACTION_COMPLETE');
                     helper.doInteractionEnd(component, helper, eventData);
                     helper.setInteractionState (component, helper, 'WAITING_INTERACTION_START');
