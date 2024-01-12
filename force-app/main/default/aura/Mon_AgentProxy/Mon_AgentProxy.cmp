@@ -1,18 +1,3 @@
-<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="Mon_AgentProxyCtrl">
-    
-<!-- Add this interface if you want the component to be hidden in the Utility Bar and run in background
-implements="lightning:backgroundUtilityItem">
--->
-<!-- Include the lightning:empApi component -->
-<lightning:empApi aura:id="empApi"/>
-<lightning:workspaceAPI aura:id="workspace" />	
-<lightning:utilityBarAPI aura:id="NewRelicutil"/>
-<aura:handler name="init" value="this" action="{!c.doInit}"/>
-<!-- 
-<aura:handler event="aura:locationChange" action="{!c.handleLocationChange}"/>
-<aura:handler event="aura:doneRendering" action="{!c.handleDoneRendering}"/>
--->
-
 <!-- Global Variables -->
 <aura:attribute name="version" type="String" default="v0.1.2"/>
 <aura:attribute name="displayError" type="Boolean" default="false"/>
@@ -31,6 +16,7 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="agentEnabled" type="Boolean" default="false"/>
 <aura:attribute name="useSecondaryAgent" type="Boolean" default="false"/>
 <aura:attribute name="spinnerOn" type="Boolean" default="false"/>
+<aura:attribute name="channelOn" type="Boolean" default="false"/>
 
 <!-- Globals - Custom Permissions enabling above booleans -->
 <aura:attribute name="customPermissionDebugOn" type="String" default="CP_MonAgentProxyDebugOn"/>
@@ -82,6 +68,7 @@ implements="lightning:backgroundUtilityItem">
 <aura:attribute name="interactionStartTime" type="DateTime" default="0"/>
 <aura:attribute name="interactionEndTime" type="DateTime" default="0"/>
 <aura:attribute name="spinnerinteractionEndTime" type="DateTime" default="0"/>
+<aura:attribute name="channelinteractionEndTime" type="DateTime" default="0"/>
 <aura:attribute name="interactionRenders" type="Integer" default="0"/>
 <aura:attribute name="interactionNetworkRoundTrips" type="Integer" default="0"/>
 <aura:attribute name="interactionNetworkLatencyMs" type="Integer" default="0"/>

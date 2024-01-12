@@ -31,12 +31,22 @@
                         helper.setInteractionState (component, helper, 'NETWORK_IDLE');
                         break;
                     case "EVT_SPINNER_START" :
+                        console.log ("GOT SPINNER START MESSAGE");
                       //  helper.doSpinnerActivityStart(component, helper, eventData);
                         helper.doInteractionStart(component, helper, eventData, eventType);
                         helper.measureNetworkResponseTime(component, helper);
                         helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
 
                        // helper.doSpinnerStart(component, helper, eventData);
+                        break;
+                        case "LOAD_CHANNEL_START" :
+                        
+                        console.log ("GOT LOAD CHANNEL START MESSAGE");
+                        helper.doInteractionStart(component, helper, eventData, eventType);
+                        helper.measureNetworkResponseTime(component, helper);
+                        helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
+
+                      
                         break;
                     default:
                         break;
@@ -64,7 +74,20 @@
                         helper.doSpinnerStart(component, helper, eventData);
                       //  helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
                         break;
+                    case "LOAD_CHANNEL_START" :
+                       // helper.doSpinnerActivityStart(component, helper, eventData);
+                        helper.measureNetworkResponseTime(component, helper);
+                        helper.doChannelStart(component, helper, eventData);
+                      //  helper.setInteractionState (component, helper, 'NETWORK_ACTIVE');
+                        break;
                     case "EVT_SPINNER_END" :
+                      
+                        helper.setInteractionState (component, helper, 'INTERACTION_COMPLETE');
+                       // console.log ('In Spinner END TIME :', component.get(component.get("v.spinnerinteractionEndTime")));
+                        helper.measureNetworkResponseTime(component, helper);
+                        helper.doInteractionEnd(component, helper, eventData);
+                        helper.setInteractionState (component, helper, 'WAITING_INTERACTION_START');
+                     case "LOAD_CHANNEL_END" :
                       
                         helper.setInteractionState (component, helper, 'INTERACTION_COMPLETE');
                        // console.log ('In Spinner END TIME :', component.get(component.get("v.spinnerinteractionEndTime")));
@@ -210,9 +233,12 @@
     // Render event received
     doRenderEvent : function(component, helper, eventData) {
         helper.logIt(component,'*** Mon: render event received, current state is:' +  component.get("v.interactionState"));
-        if (component.get("v.spinnerOn") == "false")
+        
+        
+        if (component.get("v.spinnerOn") == "false" && component.get("v.channelOn") == "false")
         {
          
+             console.log ("IN SET INTERENDTIME");
             component.set("v.interactionEndTime", eventData.time); // update end time to that of last interaction activity 
           
         }
@@ -257,11 +283,17 @@
         component.set("v.timerNetworkActivityMsCurrent", eventData.idleTimer); // Override network idle timer
         helper.doNetworkRequest(component, helper, eventData);
     },
+      doChannelStart : function(component, helper, eventData) {
+        // Override network timer until LOAD_CHANNEL_END received
+        helper.logIt(component, '*** Mon: LOAD_CHANNEL_START:' + eventData.idleTimer);
+        component.set("v.timerNetworkActivityMsCurrent", eventData.idleTimer); // Override network idle timer
+        helper.doNetworkRequest(component, helper, eventData);
+    },
     // Network request sent
     doNetworkRequest : function(component, helper, eventData) {
       
 
-        if (component.get("v.spinnerOn") == "false")
+        if (component.get("v.spinnerOn") == "false" && component.get("v.channelOn") == "false")
         {
           
             component.set("v.interactionEndTime", eventData.time); // update end time to that of last interaction activity 
@@ -275,7 +307,7 @@
         }
         
         //component.set("v.interactionEndTime", eventData.time); // update end time to that of last interaction activity 
-        if (component.get("v.spinnerOn") == "false")
+        if (component.get("v.spinnerOn") == "false" && component.get("v.channelOn") == "false")
         {
         component.set("v.interactionNetworkActivityLastActivityTime", eventData.time); // record time of most recent network activity 
         }
@@ -293,7 +325,7 @@
     },
     // Network response received
     doNetworkResponse : function(component, helper, eventData) {
-        if (component.get("v.spinnerOn") == "false")
+        if (component.get("v.spinnerOn") == "false" && component.get("v.channelOn") == "false")
         {
           
             component.set("v.interactionEndTime", eventData.time); // update end time to that of last interaction activity 
@@ -459,7 +491,7 @@
       
         let timerId = component.get("v.timerInteractionIdleId");
       
-        if (component.get("v.spinnerOn")=='false')
+        if (component.get("v.spinnerOn") == "false" && component.get("v.channelOn") == "false")
         {
         if (timerId === 0) { // only start a new timer if one is not currently running
             let timer = component.get("v.timerInteractionIdleMs")

@@ -10,6 +10,7 @@
         component.set("v.vfPageVal", pagename);
         component.set("v.vfHost", hostname);
         component.set("v.spinnerOn", "false");
+        component.set("v.channelOn", "false");
       //  component.set("v.vfAppName", sfAppname);
         component.set("v.primarySnippet", helper.sanitizeHTML(component.get("v.primarySnippet")));
         component.set("v.secondarySnippet", helper.sanitizeHTML(component.get("v.secondarySnippet")));
@@ -378,6 +379,18 @@
                 
 
                 break;
+                    
+              case 'LOAD_CHANNEL_END':
+                
+                myEvent = { "type" : "LOAD_CHANNEL_END", "data" : { "id" : id, "time" : Date.now(), "idleTimer" : idleTimer}};
+                component.set("v.interactionEndTime", Date.now()); // update end time to that of last interaction activity 
+                component.set("v.interactionNetworkActivityLastActivityTime", Date.now());
+                component.set("v.channelOn", "false");
+                 component.set("v.interactionEndTime", Date.now());
+                helper.handleEvent(component, helper, myEvent);
+                
+
+                break;
 
               case 'EVT_SPINNER_START':
                
@@ -393,11 +406,27 @@
        
          myEvent = { "type" : "EVT_SPINNER_START", "data" : {"route" : tabRoute, "routeStandardised" : tabRoute, "time" : Date.now()}} ;
         helper.handleEvent(component, helper, myEvent);
+                    
+                     case 'LOAD_CHANNEL_START':
+               
+            
+             component.set("v.channelOn", "true");
+              let tabChannelRoute = window.location.pathname + '-Channel';
+             
+              //let tabRouteStandardised = '';
+             
+    
+
+       
+       
+         myEvent = { "type" : "LOAD_CHANNEL_START", "data" : {"route" : tabChannelRoute, "routeStandardised" : tabChannelRoute, "time" : Date.now()}} ;
+        helper.handleEvent(component, helper, myEvent);
+  
   
              
                 break;
               default:
-                console.log("Recieved Undefined: ");
+                console.log("Recieved Undefined: ", eventType);
                 break;
             }
           }
