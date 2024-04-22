@@ -6,9 +6,10 @@
                 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
                 <meta http-equiv="Pragma" content="no-cache" />
                 <meta http-equiv="Expires" content="0" />
-
+               
                 <!-- Start New Relic Monitoring -->
                 <apex:includeScript value="{!$Resource[$CurrentPage.parameters.vfsnippet]}"/>
+                <script src="/support/console/57.0/integration.js" type="text/javascript"></script>
                 <script>
             //          const urlParams = new URLSearchParams(window.location.search);
             //        const vfHost = urlParams.get('vfhost');
@@ -28,11 +29,12 @@
             Snippet: {!$CurrentPage.parameters.vfsnippet}
             <!-- Start New Relic Monitoring -->
             <script>
+                
                 var hostname = window.location.hostname;
                 var lexOrigin = "https://" + hostname.split('--c.')[0] + ".lightning.force.com";
                 var lexOriginSandbox = "https://" + hostname.split('--c.')[0] + ".sandbox.lightning.force.com";
                 window.addEventListener("message", function(event) {
-                    console.log ('SANDBOX', event.origin )
+                    
                     if (event.origin !== lexOrigin && event.origin !== lexOriginSandbox)  {
                        
                         
