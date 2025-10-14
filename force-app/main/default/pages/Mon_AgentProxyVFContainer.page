@@ -33,11 +33,12 @@
                 var hostname = window.location.hostname;
                 var lexOrigin = "https://" + hostname.split('--c.')[0] + ".lightning.force.com";
                 var lexOriginSandbox = "https://" + hostname.split('--c.')[0] + ".sandbox.lightning.force.com";
+                 var lexOriginDevelop = "https://" + hostname.split('--c.')[0] + ".develop.lightning.force.com";
                 window.addEventListener("message", function(event) {
                     
-                    if (event.origin !== lexOrigin && event.origin !== lexOriginSandbox)  {
+                    if (event.origin !== lexOrigin && event.origin !== lexOriginSandbox && event.origin !== lexOriginDevelop)  {
                        
-                        
+                      
                         return;
                     }
                     // Handle message
