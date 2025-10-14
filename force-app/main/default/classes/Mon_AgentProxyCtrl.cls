@@ -90,7 +90,7 @@ public without sharing class Mon_AgentProxyCtrl {
         return new List<String>{
                 'https://' + myDomain + '--' + namespace + '.visualforce.com',
                 'https://' + myDomain + '--' + namespace + '.' + pod + '.visual.force.com',
-                'https://' + myDomain + '--' + namespace + sandbox + '.vf.force.com'
+                'https://' + myDomain + '--' + namespace + sandbox + '.develop.vf.force.com'
         };
     }
 
