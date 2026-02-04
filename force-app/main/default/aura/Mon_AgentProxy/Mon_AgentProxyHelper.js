@@ -1,6 +1,6 @@
 ({ // NOSONAR
     // Main event loop
-    handleEvent : function(component, helper, myEvent) {
+    handleEvent : function(component, helper, myEvent) { //
         
         let interactionState = component.get("v.interactionState");
         let eventType = myEvent.type;
@@ -196,6 +196,7 @@
     // Setup interaction constants
     doInitialiseInteractionConstants : function(component, helper, eventData) {
         component.set("v.interactionUserId", eventData.interactionUserId);
+        component.set("v.interactionUserDivision", eventData.interactionUserDivision); // UPDATED: Set Division
         component.set("v.interactionFederationId", eventData.interactionFederationId);
         component.set("v.interactionProfileName", eventData.interactionProfileName);
         component.set("v.interactionPermissionSets", eventData.interactionPermissionSets);
@@ -432,6 +433,7 @@
     interactionToJson : function(component) {
         let json = {
             "interactionUserId" : component.get("v.interactionUserId"),
+            "interactionUserDivision" : component.get("v.interactionUserDivision"), // UPDATED: Add division
             "interactionFederationId" : component.get("v.interactionFederationId"),
             "interactionUserLocation" : component.get("v.interactionUserLocation"),
             "interactionAppName" : component.get("v.interactionAppName"),
@@ -448,7 +450,11 @@
             "interactionEndTime" : component.get("v.interactionEndTime"),
             "interactionRenders" : component.get("v.interactionRenders"),
             "interactionNetworkRoundTrips" : component.get("v.interactionNetworkRoundTrips"),
-            "interactionNetworkLatencyMs" : component.get("v.interactionNetworkLatencyMs")
+            "interactionNetworkLatencyMs" : component.get("v.interactionNetworkLatencyMs"),
+            // UPDATED: Added click interaction telemetry
+            "triggerCompositeKey" : component.get("v.lastInteractionCompositeKey"),
+            "triggerPageTitle" : component.get("v.lastPageTitle"),
+            "triggerElement" : component.get("v.lastInteractionTriggerSelector")
         }
         return json;
     },
@@ -619,6 +625,7 @@
     },
     // **** PLR PoC ****
     // Handle location changes, get the ball rolling on a new interaction
+    // UPDATED: Added fallback for Standard Apps (non-console)
     handleLocationChangeHelper : function(component, helper, customPath) {
 
         // Variables and constants
@@ -636,6 +643,7 @@
         setTimeout(() => { 
             // Get route and other details of infocus console Tab, if available
             workspaceAPI.getFocusedTabInfo().then(function(response) {
+                // *** CONSOLE APP LOGIC ***
                 let tabDetails = response;
                 helper.logIt(component, '*** Mon: workspace URL:' + tabDetails.url);
                 helper.logIt(component, '*** Mon: browser URL:' + baseUrl + tabRoute);
@@ -650,8 +658,17 @@
                 helper.handleEvent(component, helper, myEvent);
             })
             .catch(function(error) {
-                // **EH - WARNING
-                helper.showError(component, "Error getting tab info: " + error);
+                // *** STANDARD APP FALLBACK LOGIC ***
+                // If getFocusedTabInfo fails, we assume we are in a Standard App (non-console)
+                helper.logIt(component, "*** Mon: Standard App navigation detected (or Console API failed). Using window location.");
+                
+                // Use standardisation logic on the window.location route we captured earlier
+                tabRouteStandardised = helper.standardiseRoute(component, tabRoute);
+
+                let myEvent = pathToAppend ? 
+                    { "type" : "EVT_LOCATION_CHANGE", "data" : {"route" : tabRoute, "routeStandardised" : tabRouteStandardised + '/' + customPath, "time" : Date.now()}} : 
+                    { "type" : "EVT_LOCATION_CHANGE", "data" : {"route" : tabRoute, "routeStandardised" : tabRouteStandardised, "time" : Date.now()}} ;
+                helper.handleEvent(component, helper, myEvent);
             });
         }, 50);
     },     

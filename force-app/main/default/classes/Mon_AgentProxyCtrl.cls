@@ -1,11 +1,9 @@
-/* 
- * @author Peter Sewell
+/* * @author Peter Sewell
  * @date 11/23/2020
- * 
- * @description Used by Monitoring Utility bar component to check custom permission of running user
+ * * @description Used by Monitoring Utility bar component to check custom permission of running user
  * @group Tech Enablers
  */
-public without sharing class Mon_AgentProxyCtrl {
+public without sharing class Mon_AgentProxyCtrl { //
 
     @AuraEnabled
     /*
@@ -39,8 +37,8 @@ public without sharing class Mon_AgentProxyCtrl {
             if (!Schema.sObjectType.User.fields.Name.isAccessible()) {
                 //system.debug('*** Mon : deliberately overiding user access to User object');
             }
-            // oUser = [select id, Profile.Name, FederationIdentifier, Department, Primary_Premise_Name__c FROM User Where id =: userInfo.getUserId()]; // NOSONAR
-             oUser = [select id, Username, Name, Country, State, City, Profile.Name, FederationIdentifier, Department FROM User Where id =: userInfo.getUserId()]; // NOSONAR
+            // UPDATED: Added 'Division' to query
+             oUser = [select id, Username, Name, Country, State, City, Profile.Name, FederationIdentifier, Department, Division FROM User Where id =: userInfo.getUserId()]; // NOSONAR
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage());
         }
@@ -213,16 +211,6 @@ public without sharing class Mon_AgentProxyCtrl {
             ipAddress = (String) logParsed.get('ipAddress');
             timeStamp = (Long) logParsed.get('timeStamp');
 
-            //system.debug('guid = ' + guid);
-            //system.debug('userId = ' + userId);
-            //system.debug('profileName = ' + profileName);
-            //system.debug('permissionSets = ' + permissionSets);
-            //system.debug('route = ' + route);
-            //system.debug('routeStandardised = ' + routeStandardised);
-            //system.debug('ipAddress = ' + ipAddress);
-            //system.debug('timeStamp = ' + timeStamp);
-            //system.debug('---------------------------------------------');
-
             List<Object> logRows = (List<Object>) logParsed.get('uiLogRows');
             for(Object logRow : logRows){
                 Map<String,Object> row = (Map<String,Object>)logRow;
@@ -247,10 +235,6 @@ public without sharing class Mon_AgentProxyCtrl {
             //    logRecord.User_Id__c = userId;
             //    logFile.add(logRecord);
 
-                //system.debug('component = ' + component);
-                //system.debug('linkLabel = ' + linkLabel);
-                //system.debug('recordId = ' + recordId);
-                //system.debug('---------------------------------------------');
             }
          
         }catch(Exception e){

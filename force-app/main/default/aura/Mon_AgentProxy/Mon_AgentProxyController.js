@@ -1,5 +1,44 @@
 ({  // NOSONAR
-	doInit : function(component, event, helper) {
+	doInit : function(component, event, helper) { //
+
+        // UPDATED: Global Click Listener for Activity Tracking & Telemetry
+        window.addEventListener('click', $A.getCallback(function(e) {
+            try {
+                var target = e.target;
+                var elementInfo = "";
+                var isStandardUI = false;
+
+                // Determine Element Identity (Locker Safe)
+                if (target === window || !target.tagName) {
+                    elementInfo = "Standard Salesforce UI";
+                    isStandardUI = true;
+                } else {
+                    elementInfo = target.tagName;
+                    if (target.id) elementInfo += '#' + target.id;
+                    // Capture text if available (and safe)
+                    var text = target.innerText || target.title || target.getAttribute('aria-label');
+                    if (text) {
+                        if (text.length > 20) text = text.substring(0, 20) + '...';
+                        elementInfo += ' ("' + text + '")';
+                    }
+                }
+
+                // Capture Context (The "Where")
+                var pageTitle = document.title || "Untitled Page";
+
+                // Create Meaningful Composite Key
+                var compositeKey = pageTitle + ' > ' + elementInfo;
+
+                // Store values
+                component.set("v.lastInteractionTriggerSelector", elementInfo);
+                component.set("v.lastInteractionTriggerText", target.innerText || ""); // Optional raw text
+                component.set("v.lastPageTitle", pageTitle);
+                component.set("v.lastInteractionCompositeKey", compositeKey);
+
+            } catch(err) {
+               // Fail silently
+            }
+        }), true); 
 
         // Populate variables needed to load VF container in iFrame
         // The VF container loads the monitoring agent snippet static resource passed to it as query param
@@ -279,6 +318,7 @@
                                     ['Plr_MonitoringPlugin']);
                                     
                                 // Initialisation complete. Let everyone know we're good to go!
+                                // UPDATED: Added interactionUserDivision to event data
                                 let myEvent = { "type" : "EVT_COMPONENT_INITIALISED", "data" : {
                                     "interactionUserId" : $A.get("$SObjectType.CurrentUser.Id"), 
                                     "interactionFederationId" : federationId,
@@ -287,6 +327,7 @@
                                     "interactionIpAddress" : ipAddress,
                                     "interactionAppName" : AppName,
                                     "interactionUserLocation" : location,
+                                    "interactionUserDivision" : userRecord.Division,
                                     "interactionHost" : window.location.hostname}};
                                 helper.handleEvent(component, helper, myEvent);
                             }

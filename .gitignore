@@ -1,0 +1,13 @@
+# Ignore the entire local configuration folders
+.sfdx/
+.sf/
+
+# Ignore local environment variables
+.env
+
+# Standard system files
+.DS_Store
+Thumbs.db
+
+# Node modules (if you use npm/package.json)
+node_modules/
